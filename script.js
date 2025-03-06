@@ -518,10 +518,10 @@ document.getElementById("sort-points").addEventListener("click", function () {
     const sortArrow = document.getElementById("sort-arrow");
 
     if (isDescending) {
-        sortedData = data.sort((a, b) => b.points - a.points);
+        sortedData = data.sort((a, b) => a.points - b.points);
         sortArrow.classList.add("descending");
     } else {
-        sortedData = data.sort((a, b) => a.points - b.points);
+        sortedData = data.sort((a, b) => b.points - a.points);
         sortArrow.classList.remove("descending");
     }
 
