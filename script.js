@@ -516,12 +516,19 @@ let isDescending = true;
 document.getElementById("sort-points").addEventListener("click", function () {
     let sortedData;
     const sortArrow = document.getElementById("sort-arrow");
+    const selectedTeam = document.getElementById("team-filter").value;
+    const searchInput = document.getElementById("search").value;
+
+    let filteredData = data.filter(player => 
+        player.name.toLowerCase().includes(searchInput.toLowerCase()) &&
+        (selectedTeam === "all" || player.team === selectedTeam)
+    );
 
     if (isDescending) {
-        sortedData = data.sort((a, b) => a.points - b.points);
+        sortedData = filteredData.sort((a, b) => a.points - b.points);
         sortArrow.classList.add("descending");
     } else {
-        sortedData = data.sort((a, b) => b.points - a.points);
+        sortedData = filteredData.sort((a, b) => b.points - a.points);
         sortArrow.classList.remove("descending");
     }
 
