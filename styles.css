@@ -68,3 +68,19 @@ th {
 .dark-mode td {
     border-color: #555;
 }
+#sort-points {
+    color: #333;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+#sort-arrow {
+    margin-left: 5px;
+    font-size: 0.8em;
+    transition: transform 0.3s;
+}
+
+#sort-arrow.descending {
+    transform: rotate(180deg);
+}

@@ -442,8 +442,89 @@ const data = [
     }
 ];
 
+const tableBody = document.getElementById("player-rows");
 
+function populateTable(players) {
+    tableBody.innerHTML = "";
+    players.forEach(player => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${player.name}</td>
+            <td>${player.team}</td>
+            <td>${player.points}</td>
+            <td>${player.rebounds}</td>
+            <td>${player.assists}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
 
+function populateTeams(players) {
+    let uniqueTeams = [];
+    data.forEach(player => {
+        if (!uniqueTeams.includes(player.team)) {
+            uniqueTeams.push(player.team);
+        }
+    });
 
+    //this will be in the exam (you need to create option elements after populating the
+    //select element with id "team-filter")
 
+    let selectElem = document.getElementById("team-filter");
+    uniqueTeams.forEach(team => {
+        let optionElem = document.createElement("option");
+        optionElem.value = team;
+        optionElem.innerText = team;
+        selectElem.appendChild(optionElem);
+    });
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+    populateTable(data);
+    populateTeams(data);
+});
+
+document.getElementById("search").addEventListener("keyup", function (e) {
+    let playerName = e.target.value.toLowerCase();
+    let filteredData = data.filter(player => {
+        return player.name.toLowerCase().includes(playerName);
+    });
+    populateTable(filteredData);
+});
+
+document.getElementById("dark-mode-toggle").addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+});
+
+document.getElementById("team-filter").addEventListener("change", function (e) {
+
+    if (e.target.value === "all") {
+        populateTable(data);
+        return;
+    }
+
+    let selectedTeam = e.target.value;
+    let filteredData = data.filter(player => {
+        return player.team == selectedTeam;
+    });
+
+    populateTable(filteredData);
+});
+
+let isDescending = true;
+
+document.getElementById("sort-points").addEventListener("click", function () {
+    let sortedData;
+    const sortArrow = document.getElementById("sort-arrow");
+
+    if (isDescending) {
+        sortedData = data.sort((a, b) => b.points - a.points);
+        sortArrow.classList.add("descending");
+    } else {
+        sortedData = data.sort((a, b) => a.points - b.points);
+        sortArrow.classList.remove("descending");
+    }
+
+    isDescending = !isDescending; // Toggle the sorting order
+    populateTable(sortedData);
+});
